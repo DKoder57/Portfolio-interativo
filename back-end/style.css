@@ -1,0 +1,327 @@
+/* ============================================
+   Estrutura geral da página
+============================================ */
+body {
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #d33535, #f17878);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: hidden; /* evita barras de rolagem */
+}
+
+/* ============================================
+   Cabeçalho
+============================================ */
+header {
+    background: linear-gradient(to top, #d3353500, #f17878);
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    text-shadow: 1px 1px 2px black;
+    width: 100%;
+}
+
+/* ============================================
+   Conteúdo principal
+============================================ */
+main {
+    flex: 1;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* ============================================
+   Seção de projetos
+============================================ */
+.projetos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    gap: 20px;
+    width: 100%;
+}
+
+/* ============================================
+   Cartões de projeto
+============================================ */
+.card {
+    position: relative; 
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 4px 4px 12px rgba(0,0,0,0.4);
+}
+
+/* Texto dentro dos cards */
+.card h3,
+.card p,
+.card a {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    position: relative; 
+    margin-top: 35px; 
+    z-index: 1;
+    background: linear-gradient(
+    to right,
+    rgba(0,0,0,0) 0%,      /* totalmente transparente na esquerda */
+    rgba(0,0,0,0.3) 20%,   /* começa a escurecer */
+    rgba(0,0,0,0.5) 50%,     /* centro totalmente preto */
+    rgba(0,0,0,0.3) 80%,   /* clareando novamente */
+    rgba(0,0,0,0) 100%     /* totalmente transparente na direita */
+);
+
+}
+/* Imagem de fundo dos cards */
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+    mask-repeat: no-repeat;
+    mask-size: cover;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: cover;
+}
+
+
+
+/* Botão de apagar projeto (ícone lixeira) */
+.btnDelete {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 22px;
+    color: white; 
+    transition: transform 0.2s ease, filter 0.3s ease;
+}
+
+.btnDelete:hover {
+    transform: scale(1.3) rotate(-10deg); 
+    filter: drop-shadow(0 0 4px #f17878); 
+}
+
+/* ============================================
+   Rodapé
+============================================ */
+footer {
+    background: linear-gradient(to bottom, #d3353500, #f17878);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+}
+
+footer button {
+    background-color: white;
+    color: #d33535;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+footer button:hover {
+    background-color: #f17878;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* ============================================
+   Fundo escurecido quando popup ativo
+============================================ */
+body.popup-ativo::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+    animation: fadeIn 0.3s ease;
+}
+
+/* ============================================
+   Caixa do popup
+============================================ */
+.popup {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    width: 320px;
+    max-width: 90%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    display: none;
+    z-index: 1000;
+    text-align: center;
+    animation: slideDown 0.3s ease;
+}
+
+/* Título do popup */
+.popup h2 {
+    margin-top: 0;
+    color: #d33535;
+}
+
+/* Botões dentro do popup (exceto fechar) */
+.popup button:not(.close-btn) {
+    margin: 10px 5px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #d33535;
+    color: #fff;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.popup button:not(.close-btn):hover {
+    background-color: #f17878;
+    transform: scale(1.05);
+}
+
+/* Botão de fechar (X) */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    color: red;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.close-btn:hover {
+    color: darkred;
+    transform: scale(1.2);
+}
+
+/* ============================================
+   Campos de entrada
+============================================ */
+.popup input[type="text"],
+.popup input[type="url"],
+.popup input[type="file"],
+.popup textarea {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+/* Campo de título e link com truncamento */
+.popup input[type="text"],
+.popup input[type="url"] {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* Campo de imagem */
+.popup input[type="file"] {
+    border: 1px dashed #ccc;
+    background-color: #f5f5f5;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+/* Campo de descrição */
+.popup textarea {
+    resize: none;
+    min-height: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+    word-break: break-word;
+}
+
+/* ============================================
+   Pop-up de confirmação
+============================================ */
+.popup p {
+    margin: 15px 0;
+    color: #333;
+}
+
+#btnConfirmDelete {
+    background-color: #d33535;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#btnConfirmDelete:hover {
+    background-color: #f17878;
+}
+
+#btnCancelDelete {
+    background-color: #ccc;
+    color: #333;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#btnCancelDelete:hover {
+    background-color: #999;
+    color: #fff;
+}
+
+/* ============================================
+   Animações
+============================================ */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideDown {
+    from { transform: translate(-50%, -60%); opacity: 0; }
+    to { transform: translate(-50%, -50%); opacity: 1; }
+}
