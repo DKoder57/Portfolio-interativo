@@ -1,6 +1,7 @@
+                                                           cors.json                                                            Modified
 [
   {
-    "origin": ["http://127.0.0.1:5500"],
+    "origin": ["https://dkoder57.github.io/Portifolio-interativo/"],
     "method": ["GET", "POST", "PUT"],
     "maxAgeSeconds": 3600,
     "responseHeader": ["Content-Type", "Authorization"]
