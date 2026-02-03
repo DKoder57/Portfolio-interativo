@@ -253,7 +253,7 @@ function abrirPopupFirebase() {
       alert("Erro ao salvar projeto. Verifique o console.");
       
       // Criar card local como fallback caso o banco falhe
-      criarCardProjeto(titulo, descricao, link, "");
+      criarCardProjeto(titulo, descricao, link, urlImagem);
     }
 
     // Fecha o popup
