@@ -1,8 +1,13 @@
 [
   {
     "origin": ["https://dkoder57.github.io"],
-    "method": ["GET", "POST", "PUT"],
+    "method": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     "maxAgeSeconds": 3600,
-    "responseHeader": ["Content-Type", "Authorization"]
+    "responseHeader": [
+      "Content-Type",
+      "Authorization",
+      "x-goog-meta-*",
+      "x-goog-upload-*"
+    ]
   }
 ]
