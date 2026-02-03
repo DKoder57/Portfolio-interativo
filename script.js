@@ -40,6 +40,8 @@ async function loginComGitHub() {
     console.error("Erro no login GitHub:", error.message);
   }
 }
+document.getElementById("btnLoginGitHub").addEventListener("click", loginComGitHub);
+
 // ============================================
 // CARREGAR PROJETOS DO FIRESTORE
 // ============================================
