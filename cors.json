@@ -1,6 +1,6 @@
 [
   {
-    "origin": ["https://dkoder57.github.io/Portifolio-interativo/"],
+    "origin": ["https://dkoder57.github.io"],
     "method": ["GET", "POST", "PUT"],
     "maxAgeSeconds": 3600,
     "responseHeader": ["Content-Type", "Authorization"]
