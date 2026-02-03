@@ -7,7 +7,10 @@ import { getFirestore, collection, addDoc, getDocs, serverTimestamp, doc, delete
   from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } 
   from "https://www.gstatic.com/firebasejs/12.8.0/firebase-storage.js";
+import { getAuth, signInWithPopup, GithubAuthProvider } 
+  from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
 
+// Configuração do Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyCsV4FZFZMezk76qPu-0yrdkHqFW-P1iMk",
   authDomain: "meu-portifolio-4d847.firebaseapp.com",
@@ -18,14 +21,25 @@ const firebaseConfig = {
 };
 
 // Inicializa Firebase
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
-
+const auth = getAuth(app);   // <-- agora sim, depois de inicializar o app
+const provider = new GithubAuthProvider();
 
 console.log("Firebase inicializado:", app);
 
+// Função de login com GitHub
+async function loginComGitHub() {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    console.log("Logado com GitHub:", user.displayName, user.email);
+    alert("Login realizado com GitHub!");
+  } catch (error) {
+    console.error("Erro no login GitHub:", error.message);
+  }
+}
 // ============================================
 // CARREGAR PROJETOS DO FIRESTORE
 // ============================================
