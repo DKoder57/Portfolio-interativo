@@ -40,6 +40,12 @@ async function loginComGitHub() {
     console.error("Erro no login GitHub:", error.message);
   }
 }
+// Garante que o botão está conectado depois que o DOM carrega
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("btnLoginGitHub")
+    .addEventListener("click", loginComGitHub);
+});
+
 // ============================================
 // CARREGAR PROJETOS DO FIRESTORE
 // ============================================
@@ -50,7 +56,7 @@ async function carregarProjetos() {
     querySnapshot.forEach((doc) => {
       const dados = doc.data();
       // O doc.id é o que vira o "firebaseId" dentro da função
-      criarCardProjeto(dados.titulo, dados.descricao, dados.link, dados.imagem, doc.id);
+      criarCardProjeto(dados.titulo, dados.descricao, dados.link, dados.imagem, doc.id, dados.publicId);
     });
   } catch (error) {
     console.error("Erro ao carregar projetos:", error);
@@ -189,18 +195,40 @@ function abrirPopupEscolha() {
 // FUNÇÃO POPUP FIREBASE
 // ============================================
 
+// Função auxiliar para upload no Cloudinary
+async function uploadToCloudinary(file) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "uploudportifolioimagemdk"); // substitua pelo seu preset
+  formData.append("folder", "projetos"); // opcional
+
+  const response = await fetch("https://api.cloudinary.com/v1_1/SEU_CLOUD_NAME/image/upload", {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await response.json();
+  if (!response.ok || !data.secure_url) {
+    throw new Error("Erro no upload para Cloudinary");
+  }
+
+  return {
+    url: data.secure_url,
+    publicId: data.public_id // usado para deletar depois
+  };
+}
 function abrirPopupFirebase() {
   const popupFirebase = document.createElement("div");
   popupFirebase.classList.add("popup");
   popupFirebase.id = "popupFirebase";
   popupFirebase.innerHTML = `
     <button id="btnFecharFirebase" class="close-btn">×</button>
-    <h2>Novo Projeto (Firebase)</h2>
+    <h2>Novo Projeto (Cloudinary + Firestore)</h2>
     <input type="text" id="tituloProjetoFirebase" placeholder="Título do projeto">
     <textarea id="descricaoProjetoFirebase" placeholder="Descrição do projeto"></textarea>
     <input type="url" id="linkProjetoFirebase" placeholder="Link do projeto">
     <input type="file" id="imagemProjetoFirebase" accept="image/*">
-    <button id="btnSalvarProjetoFirebase">Salvar no Firebase</button>
+    <button id="btnSalvarProjetoFirebase">Salvar</button>
   `;
 
   document.body.appendChild(popupFirebase);
@@ -225,12 +253,14 @@ function abrirPopupFirebase() {
 
     try {
       let urlImagem = "";
+      let publicId = "";
+
       if (imagem) {
         console.log("Fazendo upload da imagem...");
-        const storageRef = ref(storage, `projetos/${imagem.name}`);
-        await uploadBytes(storageRef, imagem);
-        urlImagem = await getDownloadURL(storageRef);
-        console.log("Imagem enviada:", urlImagem);
+        const result = await uploadToCloudinary(imagem);
+        urlImagem = result.url;
+        publicId = result.publicId;
+        console.log("Imagem enviada para Cloudinary:", urlImagem);
       }
 
       const docRef = await addDoc(collection(db, "projetos"), {
@@ -238,20 +268,18 @@ function abrirPopupFirebase() {
         descricao,
         link,
         imagem: urlImagem,
+        publicId,
         criadoEm: serverTimestamp()
       });
 
-      console.log("Projeto salvo no Firebase com ID:", docRef.id);
+      console.log("Projeto salvo no Firestore com ID:", docRef.id);
 
     } catch (error) {
-      console.error("Erro ao salvar no Firebase:", error);
+      console.error("Erro ao salvar projeto:", error);
       alert("Erro ao salvar projeto. Verifique o console.");
-      
-      // Criar card local como fallback caso o banco falhe
       criarCardProjeto(titulo, descricao, link, "");
     }
 
-    // Fecha o popup
     popupFirebase.remove();
     document.body.classList.remove("popup-ativo");
   });
@@ -317,16 +345,17 @@ document.addEventListener("click", (e) => {
 // CRIAR CARD DE PROJETOS
 // ============================================
 
-function criarCardProjeto(titulo, descricao, link, imagem, firebaseId) {
+  function criarCardProjeto(titulo, descricao, link, imagem, firebaseId, publicId) {
   const card = document.createElement("div");
   card.classList.add("card");
 
-  if (firebaseId) {
-    card.dataset.firebaseId = firebaseId; // associa ID do Firestore
+  if (publicId) {
+    card.dataset.publicId = publicId; // associa publicId do Cloudinary
   }
 
-
-
+  if (firebaseId) {
+    card.dataset.firebaseId = firebaseId;
+  }
   let imagemHTML = "";
   if (imagem) {
     let urlImagem;
@@ -400,16 +429,45 @@ function adicionarEventoDeletarProjeto(card) {
     confirmPopup.querySelector(".btnConfirmDelete").addEventListener("click", async () => {
       if (card.dataset.firebaseId) {
         try {
+          // Se houver publicId salvo no card, exclui imagem do Cloudinary
+          if (card.dataset.publicId) {
+            await deleteFromCloudinary(card.dataset.publicId);
+          }
+
+          // Exclui o documento do Firestore
           await deleteDoc(doc(db, "projetos", card.dataset.firebaseId));
-          console.log("Projeto excluído do Firebase:", card.dataset.firebaseId);
+          console.log("Projeto excluído do Firestore:", card.dataset.firebaseId);
+
         } catch (error) {
-          console.error("Erro ao excluir do Firebase:", error);
+          console.error("Erro ao excluir projeto:", error);
         }
       }
+
       card.remove();
       confirmPopup.remove();
       document.body.classList.remove("popup-ativo");
       alert("Projeto excluído com sucesso!");
     });
   });
+}
+
+// Função auxiliar global para deletar imagem do Cloudinary
+async function deleteFromCloudinary(publicId) {
+  try {
+    const response = await fetch("https://SEU_BACKEND/delete-cloudinary", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ publicId })
+    });
+
+    if (!response.ok) {
+      throw new Error("Erro ao excluir imagem do Cloudinary");
+    }
+
+    console.log("Imagem excluída do Cloudinary:", publicId);
+  } catch (error) {
+    console.error("Erro ao excluir imagem do Cloudinary:", error);
+  }
 }
