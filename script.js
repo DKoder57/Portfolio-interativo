@@ -141,7 +141,7 @@ function aplicarLimite(idCampo, limite) {
 }
 
 aplicarLimite("tituloProjeto", 50);
-aplicarLimite("descricaoProjeto", 1000);
+aplicarLimite("descricaoProjeto", 300);
 aplicarLimite("linkProjeto", 100);
 
 // ============================================
