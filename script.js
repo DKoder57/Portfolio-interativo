@@ -144,6 +144,10 @@ aplicarLimite("tituloProjeto", 50);
 aplicarLimite("descricaoProjeto", 300);
 aplicarLimite("linkProjeto", 100);
 
+aplicarLimite("tituloProjetoFirebase", 50);
+aplicarLimite("descricaoProjetoFirebase", 300);
+aplicarLimite("linkProjetoFirebase", 100);
+
 // ============================================
 // FUNÇÕES AUXILIARES
 // ============================================
