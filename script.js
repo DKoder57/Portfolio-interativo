@@ -202,7 +202,7 @@ async function uploadToCloudinary(file) {
   formData.append("upload_preset", "uploudportifolioimagemdk"); // substitua pelo seu preset
   formData.append("folder", "projetos"); // opcional
 
-  const response = await fetch("https://api.cloudinary.com/v1_1/SEU_CLOUD_NAME/image/upload", {
+  const response = await fetch("https://api.cloudinary.com/v1_1/dq7xboszm/image/upload", {
     method: "POST",
     body: formData
   });
