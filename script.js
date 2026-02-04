@@ -199,8 +199,8 @@ function abrirPopupEscolha() {
 async function uploadToCloudinary(file) {
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("upload_preset", "uploudportifolioimagemdk"); // substitua pelo seu preset
-  formData.append("folder", "projetos"); // opcional
+  formData.append("upload_preset", "uploudportifolioimagemdk"); 
+  formData.append("folder", "projetos"); 
 
   const response = await fetch("https://api.cloudinary.com/v1_1/dq7xboszm/image/upload", {
     method: "POST",
@@ -453,16 +453,31 @@ function adicionarEventoDeletarProjeto(card) {
 
 // Função auxiliar global para deletar imagem do Cloudinary
 async function deleteFromCloudinary(publicId) {
+  const cloudName = "dq7xboszm";
+  const apiKey = "729636375649274";
+  const apiSecret = "z9RS7NaRWwGLzYaf0lUiZonnEoc" // Teste simples, sem cuidados com segurança.
+
+  const timestamp = Math.floor(Date.now() / 1000);
+  const stringToSign = `public_id=${publicId}&timestamp=${timestamp}${apiSecret}`;
+
+  // Gera assinatura SHA-1
+  const signature = await sha1(stringToSign);
+
+  const formData = new FormData();
+  formData.append("public_id", publicId);
+  formData.append("api_key", apiKey);
+  formData.append("timestamp", timestamp);
+  formData.append("signature", signature);
+
   try {
-    const response = await fetch("https://SEU_BACKEND/delete-cloudinary", {
+    const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/destroy`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ publicId })
+      body: formData
     });
 
-    if (!response.ok) {
+    const result = await response.json();
+
+    if (!response.ok || result.result !== "ok") {
       throw new Error("Erro ao excluir imagem do Cloudinary");
     }
 
@@ -470,4 +485,14 @@ async function deleteFromCloudinary(publicId) {
   } catch (error) {
     console.error("Erro ao excluir imagem do Cloudinary:", error);
   }
+}
+
+// Função auxiliar para gerar SHA-1 no navegador
+async function sha1(message) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(message);
+  const hashBuffer = await crypto.subtle.digest("SHA-1", data);
+  return Array.from(new Uint8Array(hashBuffer))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
 }
