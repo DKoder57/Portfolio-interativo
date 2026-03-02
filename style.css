@@ -328,86 +328,86 @@ body.popup-ativo::before {
 
 
 /* ============================================
-   Tela de boas-vindas
+   Tela de boas-vindas 
 ============================================ */
 
-#welcome-screen {
-    position: fixed !important; /* Força ficar por cima de tudo */
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #0a0a0a; 
+body #welcome-screen {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: #0a0a0a !important; 
     display: flex !important;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 999999; /* Aumentado para garantir prioridade total */
-    transition: opacity 1s ease-in-out, visibility 1s;
-    margin: 0;
-    padding: 0;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 999999 !important;
+    transition: opacity 1s ease-in-out, visibility 1s ease-in-out !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-#welcome-screen.hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none; /* Garante que o usuário consiga clicar no site após sumir */
+body #welcome-screen.hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
 }
 
-.welcome-content {
-    /* Retirado o width fixo que causava o sumiço do texto em telas menores */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000000;
+body #welcome-screen .welcome-content {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 1000000 !important;
+    width: 100% !important;
 }
 
-.welcome-content h1 {
-    font-family: 'Inter', sans-serif;
-    /* Font-size fixo para teste, se sumir, diminua este valor */
-    font-size: clamp(2rem, 7vw, 3.5rem) !important; 
-    font-weight: 900;
-    letter-spacing: -1px;
-    margin: 0;
+body #welcome-screen h1 {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 3rem !important;
+    font-weight: 900 !important;
+    letter-spacing: -1px !important;
+    margin: 0 !important;
     color: #ffffff !important;
-    line-height: 1.2;
-    animation: revealIn 1s ease-out forwards;
+    line-height: 1.2 !important;
+    animation: revealIn 1s ease-out forwards !important;
 }
 
-.welcome-content p {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.9rem;
+body #welcome-screen p {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 1rem !important;
     color: #3498db !important;
-    letter-spacing: 4px;
-    margin: 10px 0 0 0;
-    text-transform: uppercase;
-    opacity: 0;
-    animation: fadeInSub 0.8s ease-out 0.5s forwards;
+    letter-spacing: 4px !important;
+    margin: 10px 0 0 0 !important;
+    text-transform: uppercase !important;
+    opacity: 0; /* Essencial para a animação funcionar */
+    animation: fadeInSub 0.8s ease-out 0.5s forwards !important;
 }
 
-/* Loader reestruturado para evitar quebra de largura */
-.loader {
-    width: 120px;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.1);
-    margin-top: 30px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 2px;
+body #welcome-screen .loader {
+    width: 150px !important;
+    height: 2px !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    margin-top: 30px !important;
+    position: relative !important;
+    overflow: hidden !important;
+    border-radius: 2px !important;
 }
 
-.loader::after {
-    content: '';
-    position: absolute;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: #3498db;
-    animation: loadingMove 2s infinite linear;
+body #welcome-screen .loader::after {
+    content: '' !important;
+    position: absolute !important;
+    left: -100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: #3498db !important;
+    animation: loadingMove 2s infinite linear !important;
 }
 
-/* Keyframes mantidos */
+/* Keyframes não levam !important */
 @keyframes loadingMove {
     0% { left: -100%; }
     100% { left: 100%; }
@@ -421,4 +421,3 @@ body.popup-ativo::before {
 @keyframes fadeInSub {
     to { opacity: 0.8; }
 }
-
