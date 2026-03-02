@@ -23,21 +23,20 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
-    background-color: #1a1a1a; /* Cor de fundo do seu tema */
+    background: radial-gradient(circle, #2c2c2c 0%, #121212 100%);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999; /* Garante que fique acima de tudo */
-    transition: opacity 1s ease, visibility 1s;
+    z-index: 10000;
     color: white;
-    text-align: center;
+    transition: opacity 1s ease; 
 }
 
 #welcome-screen.hidden {
     opacity: 0;
-    visibility: hidden;
+    pointer-events: none;
 }
 
 .loader {
