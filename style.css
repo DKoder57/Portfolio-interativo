@@ -74,38 +74,39 @@ main {
    Cartões de projeto
 ============================================ */
 .card {
-    position: relative;
-    background-color: rgba(32, 58, 67, 0.4);
-    backdrop-filter: blur(6px);
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
-    border: 1px solid rgba(74, 144, 226, 0.15); /* borda sutil para harmonia */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-   
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+   
 }
 .card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 32px rgba(74, 144, 226, 0.22);
-    border-color: rgba(74, 144, 226, 0.35);
+    transform: scale(1.05);
+    box-shadow: 4px 4px 12px rgba(0,0,0,0.4);
 }
 /* Texto dentro dos cards */
 .card h3,
 .card p,
 .card a {
-    position: relative;
-    z-index: 1;
-    margin-top: 35px;
-    padding: 10px 14px;
-    border-radius: 8px;
-    background: rgba(0, 0, 0, 0.65);
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
-    color: #f0f8ff;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    position: relative;
+    margin-top: 35px;
+    z-index: 1;
+    background: linear-gradient(
+    to right,
+    rgba(0,0,0,0) 0%, /* totalmente transparente na esquerda */
+    rgba(0,0,0,0.3) 20%, /* começa a escurecer */
+    rgba(0,0,0,0.5) 50%, /* centro totalmente preto */
+    rgba(0,0,0,0.3) 80%, /* clareando novamente */
+    rgba(0,0,0,0) 100% /* totalmente transparente na direita */
+);
 }
 /* Imagem de fundo dos cards */
 .card img {
