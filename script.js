@@ -51,26 +51,32 @@ document.addEventListener("DOMContentLoaded", () => {
 // ============================================
 
 function iniciarTelaBoasVindas() {
-    const welcomeScreen = document.getElementById("welcome-screen");
-    
-    // Verificação de segurança: só executa se o elemento existir
-    if (!welcomeScreen) return;
+    const welcomeScreen = document.createElement("div");
+    welcomeScreen.id = "welcome-screen";
+
+    welcomeScreen.innerHTML = `
+        <div class="welcome-content">
+            <h1>Danilo César</h1>
+            <p>Desenvolvedor de Software</p>
+            <div class="loader"></div>
+        </div>
+    `;
+
+    document.body.appendChild(welcomeScreen);
+    document.body.style.overflow = "hidden";
 
     setTimeout(() => {
         welcomeScreen.classList.add("hidden");
-        
+        document.body.style.overflow = "auto";
+
         setTimeout(() => {
-            // Checa novamente antes de remover
-            if (welcomeScreen.parentNode) {
-                welcomeScreen.remove();
-            }
-        }, 1200);
-        
+            welcomeScreen.remove();
+        }, 1000);
     }, 5000);
 }
 
-// Inicia a contagem assim que a página carregar
 window.addEventListener("load", iniciarTelaBoasVindas);
+
 
 // ============================================
 // CARREGAR PROJETOS DO FIRESTORE
