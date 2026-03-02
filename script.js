@@ -47,15 +47,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ============================================
-// LÓGICA DA TELA DE BOAS-VINDAS
+// LÓGICA DA TELA DE BOAS-VINDAS (CORRIGIDA)
 // ============================================
 function iniciarTelaBoasVindas() {
-    if (document.getElementById("welcome-screen")) return;
+    // Remove qualquer versão anterior (segurança)
+    let welcomeScreen = document.getElementById("welcome-screen");
+    if (welcomeScreen) welcomeScreen.remove();
 
-    const welcomeScreen = document.createElement("div");
+    welcomeScreen = document.createElement("div");
     welcomeScreen.id = "welcome-screen";
-
-    // Classes sincronizadas com o CSS Blindado
+    
     welcomeScreen.innerHTML = `
         <div class="welcome-content">
             <h1>Danilo César</h1>
@@ -67,25 +68,22 @@ function iniciarTelaBoasVindas() {
     document.body.appendChild(welcomeScreen);
     document.body.style.overflow = "hidden";
 
-    // Inicia o carregamento dos projetos "por baixo" da tela
+    // Carrega os projetos "por baixo" da tela
     carregarProjetos();
 
+    // Remove a tela após 3 segundos
     setTimeout(() => {
-        const screen = document.getElementById("welcome-screen");
-        if (screen) {
-            screen.classList.add("hidden");
+        welcomeScreen.classList.add("hidden");
+        
+        setTimeout(() => {
+            if (welcomeScreen.parentNode) welcomeScreen.remove();
             document.body.style.overflow = "auto";
-
-            setTimeout(() => {
-                if (screen.parentNode) screen.remove();
-            }, 1000);
-        }
+        }, 1000);
     }, 3000);
 }
 
-// Evento único de inicialização
+// Inicializa apenas uma vez
 window.addEventListener("load", iniciarTelaBoasVindas);
-
 // ============================================
 // CARREGAR PROJETOS DO FIRESTORE
 // ============================================
