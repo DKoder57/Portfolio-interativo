@@ -1,23 +1,26 @@
 /* ============================================
    Estrutura geral da página
 ============================================ */
-html, body {
-    margin: 0;
-    padding: 0;
+* {
+    box-sizing: border-box; /* Garante que padding não quebre a largura da tela */
+}
+html {
     height: 100%;
-    width: 100%;
-    overflow: hidden;
-    overscroll-behavior: none;
 }
 
 body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* Permite crescer com o conteúdo */
+    width: 100%;
+    overflow-x: hidden; /* Corta vazamentos horizontais */
     font-family: Arial, sans-serif;
     background: linear-gradient(to bottom, #0e1f38, #1f4068, #33689e, #4a90e2, #609de6);
+    background-attachment: fixed; /* O fundo não acaba ao rolar a página */
     color: #e0f0ff;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
 }
 /* ============================================
    Cabeçalho
@@ -83,10 +86,6 @@ main {
     text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
     box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: 80%;
-    max-width: 400px;
-    height: auto;
-    margin: 50px auto;
 }
 .card:hover {
     transform: scale(1.05);
@@ -94,22 +93,32 @@ main {
 }
 /* Texto dentro dos cards */
 .card h3,
-.card p,
+.card p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin: 10px 0;
+    position: relative;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.5); /* Fundo sólido translúcido é mais estável que gradiente no texto */
+    padding: 5px 10px;
+    border-radius: 5px;
+}
 .card a {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    max-width: 80%;
-    position: relative;
-    margin-top: 35px;
-    z-index: 1;
-    background: linear-gradient(
-    to right,
-    rgba(0,0,0,0) 0%, /* totalmente transparente na esquerda */
-    rgba(0,0,0,0.3) 20%, /* começa a escurecer */
-    rgba(0,0,0,0.5) 50%, /* centro totalmente preto */
-    rgba(0,0,0,0.3) 80%, /* clareando novamente */
-    rgba(0,0,0,0) 100% /* totalmente transparente na direita */
-);
+    position: relative;
+    z-index: 2;
+    display: inline-block; /* Fundamental para links com fundo/margem */
+    margin-top: 10px;
+    background-color: #4a90e2;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    text-shadow: none;
+    transition: background-color 0.2s;
+}
+.card a:hover {
+    background-color: #3a7ac9;
 }
 /* Imagem de fundo dos cards */
 .card img {
