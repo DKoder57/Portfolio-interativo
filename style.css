@@ -23,7 +23,6 @@ body {
    Cabeçalho
 ============================================ */
 header {
-    background: linear-gradient(to top, #4a90e2, #609de6);
     color: white;
     padding: 20px 0;
     text-align: center;
@@ -145,7 +144,6 @@ main {
    Rodapé
 ============================================ */
 footer {
-    background: linear-gradient(to top, #4a90e2, #609de6);
     color: white;
     text-align: center;
     padding: 20px 10px;
