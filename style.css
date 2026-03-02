@@ -15,8 +15,6 @@ body {
     justify-content: flex-start;
     overflow: hidden;
     overscroll-behavior: none;
-    inset: 0;
-    position: fixed;
 }
 /* ============================================
    Cabeçalho
