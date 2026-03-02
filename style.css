@@ -15,7 +15,6 @@ body {
     justify-content: flex-start;
     overflow: hidden; /* evita barras de rolagem */
 }
-
 /* ============================================
    Cabeçalho
 ============================================ */
@@ -27,7 +26,6 @@ header {
     text-shadow: 1px 1px 2px black;
     width: 100%;
 }
-
 /* ============================================
    Conteúdo principal
 ============================================ */
@@ -39,22 +37,20 @@ main {
     justify-content: center;
     padding: 20px;
 }
-
 /* ============================================
    Seção de projetos
 ============================================ */
 .projetos {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
     width: 100%;
 }
-
 /* ============================================
    Cartões de projeto
 ============================================ */
 .card {
-    position: relative; 
+    position: relative;
     background-color: rgba(32, 58, 67, 0.4);
     backdrop-filter: blur(6px);
     color: white;
@@ -63,16 +59,15 @@ main {
     text-align: center;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
     box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+    border: 1px solid rgba(74, 144, 226, 0.15); /* borda sutil para harmonia */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    
+   
 }
-
 .card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 12px 32px rgba(52, 152, 219, 0.22);
-    border-color: rgba(52, 152, 219, 0.35);
+    box-shadow: 0 12px 32px rgba(74, 144, 226, 0.22);
+    border-color: rgba(74, 144, 226, 0.35);
 }
-
 /* Texto dentro dos cards */
 .card h3,
 .card p,
@@ -88,7 +83,6 @@ main {
     color: #f0f8ff;
     text-shadow: 0 1px 3px rgba(0,0,0,0.8);
 }
-
 /* Imagem de fundo dos cards */
 .card img {
     width: 100%;
@@ -106,9 +100,6 @@ main {
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-size: cover;
 }
-
-
-
 /* Botão de apagar projeto (ícone lixeira) */
 .btnDelete {
     position: absolute;
@@ -118,15 +109,13 @@ main {
     border: none;
     cursor: pointer;
     font-size: 22px;
-    color: white; 
+    color: white;
     transition: transform 0.2s ease, filter 0.3s ease;
 }
-
 .btnDelete:hover {
-    transform: scale(1.3) rotate(-10deg); 
-    filter: drop-shadow(0 0 4px #3498db;); 
+    transform: scale(1.3) rotate(-10deg);
+    filter: drop-shadow(0 0 4px #4a90e2);
 }
-
 /* ============================================
    Rodapé
 ============================================ */
@@ -137,10 +126,9 @@ footer {
     padding: 20px;
     width: 100%;
 }
-
 footer button {
-    background-color: white;
-    color: #3498db;
+    background-color: #4a90e2;
+    color: white;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
@@ -149,13 +137,11 @@ footer button {
     margin-bottom: 10px;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
 footer button:hover {
-    background-color: #2980b9;
+    background-color: #3a7ac9;
     color: white;
     transform: scale(1.05);
 }
-
 /* ============================================
    Fundo escurecido quando popup ativo
 ============================================ */
@@ -168,7 +154,6 @@ body.popup-ativo::before {
     z-index: 999;
     animation: fadeIn 0.3s ease;
 }
-
 /* ============================================
    Caixa do popup
 ============================================ */
@@ -188,13 +173,11 @@ body.popup-ativo::before {
     text-align: center;
     animation: slideDown 0.3s ease;
 }
-
 /* Título do popup */
 .popup h2 {
     margin-top: 0;
-    color: #3498db;
+    color: #4a90e2;
 }
-
 /* Botões dentro do popup (exceto fechar) */
 .popup button:not(.close-btn) {
     margin: 10px 5px;
@@ -203,16 +186,14 @@ body.popup-ativo::before {
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    background-color: #3498db;
+    background-color: #4a90e2;
     color: #fff;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
 .popup button:not(.close-btn):hover {
-    background-color: #2980b9;
+    background-color: #3a7ac9;
     transform: scale(1.05);
 }
-
 /* Botão de fechar (X) */
 .close-btn {
     position: absolute;
@@ -226,12 +207,10 @@ body.popup-ativo::before {
     cursor: pointer;
     transition: color 0.3s ease, transform 0.2s ease;
 }
-
 .close-btn:hover {
     color: darkred;
     transform: scale(1.2);
 }
-
 /* ============================================
    Campos de entrada
 ============================================ */
@@ -249,7 +228,6 @@ body.popup-ativo::before {
     font-size: 14px;
     font-family: inherit;
 }
-
 /* Campo de título e link com truncamento */
 .popup input[type="text"],
 .popup input[type="url"] {
@@ -257,7 +235,6 @@ body.popup-ativo::before {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-
 /* Campo de imagem */
 .popup input[type="file"] {
     border: 1px dashed #ccc;
@@ -265,7 +242,6 @@ body.popup-ativo::before {
     cursor: pointer;
     overflow: hidden;
 }
-
 /* Campo de descrição */
 .popup textarea {
     resize: none;
@@ -274,7 +250,6 @@ body.popup-ativo::before {
     overflow-y: auto;
     word-break: break-word;
 }
-
 /* ============================================
    Pop-up de confirmação
 ============================================ */
@@ -282,7 +257,6 @@ body.popup-ativo::before {
     margin: 15px 0;
     color: #333;
 }
-
 #btnConfirmDelete {
     background-color: #e74c3c;
     color: #fff;
@@ -292,27 +266,23 @@ body.popup-ativo::before {
     cursor: pointer;
     font-weight: bold;
 }
-
 #btnConfirmDelete:hover {
-    background-color: #c0392b;         
+    background-color: #c0392b;
     transform: scale(1.04);
 }
-
 #btnCancelDelete {
     background-color: #ccc;
-    color: #7f8c8d;
+    color: #fff;
     border: none;
     padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
 }
-
 #btnCancelDelete:hover {
     background-color: #95a5a6;
     color: #fff;
 }
-
 /* ============================================
    Animações
 ============================================ */
@@ -320,47 +290,40 @@ body.popup-ativo::before {
     from { opacity: 0; }
     to { opacity: 1; }
 }
-
 @keyframes slideDown {
     from { transform: translate(-50%, -60%); opacity: 0; }
     to { transform: translate(-50%, -50%); opacity: 1; }
 }
-
-
 /* ============================================
-   Tela de boas-vindas 
+   Tela de boas-vindas
 ============================================ */
-
 #welcome-screen {
     position: fixed !important;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    background: #0a0a0a; 
+    background: #0a0a0a;
     display: flex !important;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 999999; 
+    z-index: 999999;
     transition: opacity 1s ease-in-out, visibility 1s;
     margin: 0;
     padding: 0;
 }
-
 #welcome-screen.hidden {
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none;
 }
-
 .welcome-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
-
 .welcome-content h1 {
     font-family: 'Inter', sans-serif;
     font-size: clamp(2.5rem, 8vw, 4rem) !important;
@@ -370,18 +333,16 @@ body.popup-ativo::before {
     color: #ffffff !important;
     animation: revealIn 1.5s ease-out forwards;
 }
-
 .welcome-content p {
     font-family: 'JetBrains Mono', monospace;
     font-size: 1rem;
-    color: #3498db !important;
+    color: #4a90e2 !important;
     letter-spacing: 5px;
     margin-top: 15px;
     text-transform: uppercase;
     opacity: 0;
     animation: fadeInSub 1s ease-out 0.5s forwards;
 }
-
 .loader {
     width: 150px;
     height: 2px;
@@ -391,28 +352,24 @@ body.popup-ativo::before {
     overflow: hidden;
     border-radius: 4px;
 }
-
 .loader::after {
     content: '';
     position: absolute;
     left: -100%;
     width: 100%;
     height: 100%;
-    background: #3498db;
+    background: #4a90e2;
     animation: loadingMove 2s infinite ease-in-out;
 }
-
 @keyframes loadingMove {
     0% { left: -100%; }
     50% { left: 0; }
     100% { left: 100%; }
 }
-
 @keyframes revealIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
-
 @keyframes fadeInSub {
     to { opacity: 0.7; }
 }
