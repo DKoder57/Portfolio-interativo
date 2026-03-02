@@ -24,7 +24,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
-const auth = getAuth(app);   // <-- agora sim, depois de inicializar o app
+const auth = getAuth(app);   
 const provider = new GithubAuthProvider();
 
 console.log("Firebase inicializado:", app);
@@ -54,12 +54,12 @@ function iniciarTelaBoasVindas() {
     const welcomeScreen = document.createElement("div");
     welcomeScreen.id = "welcome-screen";
 
-    welcomeScreen.innerHTML = `
-        <div class="welcome-content">
-            <h1>Danilo César</h1>
-            <p>Desenvolvedor de Software</p>
-            <div class="loader"></div>
-        </div>
+   welcomeScreen.innerHTML = `
+      <div class="welcome-content">
+           <h1 class="welcome-title">Danilo César</h1>
+           <p class="welcome-subtitle">Desenvolvedor de Software</p>
+          <div class="loader"></div>
+      </div>
     `;
 
     document.body.appendChild(welcomeScreen);
@@ -72,7 +72,7 @@ function iniciarTelaBoasVindas() {
         setTimeout(() => {
             welcomeScreen.remove();
         }, 1000);
-    }, 5000);
+    }, 3000);
 }
 
 window.addEventListener("load", iniciarTelaBoasVindas);
