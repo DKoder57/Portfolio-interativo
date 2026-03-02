@@ -7,7 +7,8 @@ body {
     width: 100vw;
     margin: 0;
     padding: 0;
-    background: linear-gradient(to bottom, #d33535, #f17878);
+    background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+    color: #e0f0ff;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -19,7 +20,7 @@ body {
    Cabeçalho
 ============================================ */
 header {
-    background: linear-gradient(to top, #d3353500, #f17878);
+    background: linear-gradient(to top, #203a4300, #2c5364);
     color: white;
     padding: 20px 0;
     text-align: center;
@@ -54,7 +55,8 @@ main {
 ============================================ */
 .card {
     position: relative; 
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(32, 58, 67, 0.4);
+    backdrop-filter: blur(6px);
     color: white;
     padding: 20px;
     border-radius: 10px;
@@ -66,30 +68,27 @@ main {
 }
 
 .card:hover {
-    transform: scale(1.05);
-    box-shadow: 4px 4px 12px rgba(0,0,0,0.4);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(52, 152, 219, 0.22);
+    border-color: rgba(52, 152, 219, 0.35);
 }
 
 /* Texto dentro dos cards */
 .card h3,
 .card p,
 .card a {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    max-width: 100%;
-    position: relative; 
-    margin-top: 35px; 
+    position: relative;
     z-index: 1;
-    background: linear-gradient(
-    to right,
-    rgba(0,0,0,0) 0%,      /* totalmente transparente na esquerda */
-    rgba(0,0,0,0.3) 20%,   /* começa a escurecer */
-    rgba(0,0,0,0.5) 50%,     /* centro totalmente preto */
-    rgba(0,0,0,0.3) 80%,   /* clareando novamente */
-    rgba(0,0,0,0) 100%     /* totalmente transparente na direita */
-);
-
+    margin-top: 35px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    color: #f0f8ff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
 }
+
 /* Imagem de fundo dos cards */
 .card img {
     width: 100%;
@@ -125,14 +124,14 @@ main {
 
 .btnDelete:hover {
     transform: scale(1.3) rotate(-10deg); 
-    filter: drop-shadow(0 0 4px #f17878); 
+    filter: drop-shadow(0 0 4px #3498db;); 
 }
 
 /* ============================================
    Rodapé
 ============================================ */
 footer {
-    background: linear-gradient(to bottom, #d3353500, #f17878);
+    background: linear-gradient(to bottom, #203a4300, #2c5364);
     color: white;
     text-align: center;
     padding: 20px;
@@ -141,7 +140,7 @@ footer {
 
 footer button {
     background-color: white;
-    color: #d33535;
+    color: #3498db;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
@@ -152,7 +151,7 @@ footer button {
 }
 
 footer button:hover {
-    background-color: #f17878;
+    background-color: #2980b9;
     color: white;
     transform: scale(1.05);
 }
@@ -193,7 +192,7 @@ body.popup-ativo::before {
 /* Título do popup */
 .popup h2 {
     margin-top: 0;
-    color: #d33535;
+    color: #3498db;
 }
 
 /* Botões dentro do popup (exceto fechar) */
@@ -204,13 +203,13 @@ body.popup-ativo::before {
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    background-color: #d33535;
+    background-color: #3498db;
     color: #fff;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .popup button:not(.close-btn):hover {
-    background-color: #f17878;
+    background-color: #2980b9;
     transform: scale(1.05);
 }
 
@@ -285,7 +284,7 @@ body.popup-ativo::before {
 }
 
 #btnConfirmDelete {
-    background-color: #d33535;
+    background-color: #e74c3c;
     color: #fff;
     border: none;
     padding: 10px 15px;
@@ -295,12 +294,13 @@ body.popup-ativo::before {
 }
 
 #btnConfirmDelete:hover {
-    background-color: #f17878;
+    background-color: #c0392b;         
+    transform: scale(1.04);
 }
 
 #btnCancelDelete {
     background-color: #ccc;
-    color: #333;
+    color: #7f8c8d;
     border: none;
     padding: 10px 15px;
     border-radius: 5px;
@@ -309,7 +309,7 @@ body.popup-ativo::before {
 }
 
 #btnCancelDelete:hover {
-    background-color: #999;
+    background-color: #95a5a6;
     color: #fff;
 }
 
@@ -374,7 +374,7 @@ body.popup-ativo::before {
 .welcome-content p {
     font-family: 'JetBrains Mono', monospace;
     font-size: 1rem;
-    color: #d3353500 !important;
+    color: #3498db !important;
     letter-spacing: 5px;
     margin-top: 15px;
     text-transform: uppercase;
