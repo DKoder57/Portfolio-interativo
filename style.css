@@ -83,7 +83,10 @@ main {
     text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
     box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-   
+    width: 80%;
+    max-width: 400px;
+    height: auto;
+    margin: 50px auto;
 }
 .card:hover {
     transform: scale(1.05);
@@ -95,7 +98,7 @@ main {
 .card a {
     word-wrap: break-word;
     overflow-wrap: break-word;
-    max-width: 100%;
+    max-width: 80%;
     position: relative;
     margin-top: 35px;
     z-index: 1;
