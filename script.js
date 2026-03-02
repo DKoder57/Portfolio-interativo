@@ -51,29 +51,38 @@ document.addEventListener("DOMContentLoaded", () => {
 // ============================================
 
 function iniciarTelaBoasVindas() {
+    if (document.getElementById("welcome-screen")) return;
+
     const welcomeScreen = document.createElement("div");
     welcomeScreen.id = "welcome-screen";
 
-   welcomeScreen.innerHTML = `
-      <div class="welcome-content">
-           <h1 class="welcome-title">Danilo César</h1>
-           <p class="welcome-subtitle">Desenvolvedor de Software</p>
-          <div class="loader"></div>
-      </div>
+    welcomeScreen.innerHTML = `
+        <div class="welcome-content">
+            <h1>Danilo César</h1>
+            <p>Desenvolvedor de Software</p>
+            <div class="loader"></div>
+        </div>
     `;
 
     document.body.appendChild(welcomeScreen);
     document.body.style.overflow = "hidden";
 
     setTimeout(() => {
-    const screen = document.getElementById("welcome-screen");
-    if (screen) {
-        screen.classList.add("hidden");
-        // Remove do DOM após a transição de 1s do CSS
-        setTimeout(() => screen.remove(), 1000);
-    }
+        const screen = document.getElementById("welcome-screen");
+        if (screen) {
+            screen.classList.add("hidden");
+            document.body.style.overflow = "auto";
+
+            setTimeout(() => {
+                if (screen.parentNode) {
+                    screen.remove();
+                }
+            }, 1000);
+        }
     }, 3000);
-    window.addEventListener("load", iniciarTelaBoasVindas);
+}
+
+window.addEventListener("load", iniciarTelaBoasVindas);
 
 
 // ============================================
