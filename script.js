@@ -409,7 +409,7 @@ document.addEventListener("click", (e) => {
       // Caso seja File (fluxo teste)
       urlImagem = URL.createObjectURL(imagem);
     }
-    imagemHTML = `<img src="${urlImagem}" alt="Imagem do projeto" style="width:100%; border-radius:8px; margin-top:10px;">`;
+    imagemHTML = `<img src="${urlImagem}" alt="Imagem do projeto" class="card-img-bg">`;
   }
 
   let linkHTML = "";
@@ -430,10 +430,10 @@ document.addEventListener("click", (e) => {
   `;
 
   card.innerHTML = `
+    ${imagemHTML}
     <h3>${titulo}</h3>
     <p>${descricao}</p>
     ${linkHTML}
-    ${imagemHTML}
     ${deleteButton}
   `;
 
