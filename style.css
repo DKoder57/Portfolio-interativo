@@ -331,71 +331,70 @@ body.popup-ativo::before {
    Tela de boas-vindas
 ============================================ */
 
-/* Container Principal */
 #welcome-screen {
-    position: fixed;
+    position: fixed !important; /* Força ficar por cima de tudo */
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
-    background: #0a0a0a; /* Fundo sólido e escuro */
-    display: flex;
+    background: #0a0a0a; 
+    display: flex !important;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 99999;
+    z-index: 999999; /* Aumentado para garantir prioridade total */
     transition: opacity 1s ease-in-out, visibility 1s;
-    overflow: hidden; /* Impede que o texto "vaze" ou crie scroll */
+    margin: 0;
+    padding: 0;
 }
 
-/* Estado Escondido */
 #welcome-screen.hidden {
     opacity: 0;
     visibility: hidden;
+    pointer-events: none; /* Garante que o usuário consiga clicar no site após sumir */
 }
 
-/* Conteúdo Central - Largura fixa para evitar que o texto suma */
 .welcome-content {
-    width: 90%; 
-    max-width: 600px;
+    /* Retirado o width fixo que causava o sumiço do texto em telas menores */
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
+    justify-content: center;
+    z-index: 1000000;
 }
 
-/* Título Impactante */
 .welcome-content h1 {
     font-family: 'Inter', sans-serif;
-    font-size: clamp(2.5rem, 8vw, 4rem);
+    /* Font-size fixo para teste, se sumir, diminua este valor */
+    font-size: clamp(2rem, 7vw, 3.5rem) !important; 
     font-weight: 900;
     letter-spacing: -1px;
     margin: 0;
-    color: #ffffff;
-    /* Efeito de revelação suave para não sumir no início */
-    animation: revealIn 1.5s ease-out forwards;
+    color: #ffffff !important;
+    line-height: 1.2;
+    animation: revealIn 1s ease-out forwards;
 }
 
-/* Subtítulo */
 .welcome-content p {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 1rem;
-    color: #3498db;
-    letter-spacing: 5px;
-    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #3498db !important;
+    letter-spacing: 4px;
+    margin: 10px 0 0 0;
     text-transform: uppercase;
     opacity: 0;
-    animation: fadeInSub 1s ease-out 0.5s forwards;
+    animation: fadeInSub 0.8s ease-out 0.5s forwards;
 }
 
-/* Loader Minimalista que não quebra o layout */
+/* Loader reestruturado para evitar quebra de largura */
 .loader {
-    width: 150px;
+    width: 120px;
     height: 2px;
     background: rgba(255, 255, 255, 0.1);
-    margin-top: 40px;
+    margin-top: 30px;
     position: relative;
     overflow: hidden;
-    border-radius: 4px;
+    border-radius: 2px;
 }
 
 .loader::after {
@@ -405,28 +404,21 @@ body.popup-ativo::before {
     width: 100%;
     height: 100%;
     background: #3498db;
-    animation: loadingMove 2s infinite ease-in-out;
+    animation: loadingMove 2s infinite linear;
 }
 
-/* ANIMAÇÕES */
+/* Keyframes mantidos */
 @keyframes loadingMove {
     0% { left: -100%; }
-    50% { left: 0; }
     100% { left: 100%; }
 }
 
 @keyframes revealIn {
-    from { 
-        opacity: 0; 
-        transform: translateY(10px); 
-    }
-    to { 
-        opacity: 1; 
-        transform: translateY(0); 
-    }
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeInSub {
-    to { opacity: 0.7; }
+    to { opacity: 0.8; }
 }
 
