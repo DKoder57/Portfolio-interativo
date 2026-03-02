@@ -49,13 +49,13 @@ document.addEventListener("DOMContentLoaded", () => {
 // ============================================
 // LÓGICA DA TELA DE BOAS-VINDAS
 // ============================================
-
 function iniciarTelaBoasVindas() {
     if (document.getElementById("welcome-screen")) return;
 
     const welcomeScreen = document.createElement("div");
     welcomeScreen.id = "welcome-screen";
 
+    // Classes sincronizadas com o CSS Blindado
     welcomeScreen.innerHTML = `
         <div class="welcome-content">
             <h1>Danilo César</h1>
@@ -67,6 +67,9 @@ function iniciarTelaBoasVindas() {
     document.body.appendChild(welcomeScreen);
     document.body.style.overflow = "hidden";
 
+    // Inicia o carregamento dos projetos "por baixo" da tela
+    carregarProjetos();
+
     setTimeout(() => {
         const screen = document.getElementById("welcome-screen");
         if (screen) {
@@ -74,34 +77,33 @@ function iniciarTelaBoasVindas() {
             document.body.style.overflow = "auto";
 
             setTimeout(() => {
-                if (screen.parentNode) {
-                    screen.remove();
-                }
+                if (screen.parentNode) screen.remove();
             }, 1000);
         }
     }, 3000);
 }
 
+// Evento único de inicialização
 window.addEventListener("load", iniciarTelaBoasVindas);
-
 
 // ============================================
 // CARREGAR PROJETOS DO FIRESTORE
 // ============================================
 
 async function carregarProjetos() {
-  try {
-    const querySnapshot = await getDocs(collection(db, "projetos"));
-    querySnapshot.forEach((doc) => {
-      const dados = doc.data();
-      // O doc.id é o que vira o "firebaseId" dentro da função
-      criarCardProjeto(dados.titulo, dados.descricao, dados.link, dados.imagem, doc.id, dados.publicId);
-    });
-  } catch (error) {
-    console.error("Erro ao carregar projetos:", error);
-  }
-}
-carregarProjetos();
+    try {
+        const querySnapshot = await getDocs(collection(db, "projetos"));
+        const container = document.getElementById("projetos");
+        if(container) container.innerHTML = ""; 
+
+        querySnapshot.forEach((doc) => {
+            const dados = doc.data();
+            criarCardProjeto(dados.titulo, dados.descricao, dados.link, dados.imagem, doc.id, dados.publicId);
+        });
+    } catch (error) {
+        console.error("Erro ao carregar projetos:", error);
+    }
+};
 
 // ============================================
 // POPUP GERENCIAR PROJETOS
