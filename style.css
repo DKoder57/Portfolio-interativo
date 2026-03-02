@@ -1,25 +1,29 @@
 /* ============================================
    Estrutura geral da página
 ============================================ */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+}
+
 body {
     font-family: Arial, sans-serif;
-    height: 100vh;
-    width: 100vw;
-    margin: 0;
-    padding: 0;
     background: linear-gradient(to bottom, #0e1f38, #1f4068, #33689e, #4a90e2, #609de6);
     color: #e0f0ff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    overflow: hidden; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
 }
 /* ============================================
    Cabeçalho
 ============================================ */
 header {
-    background: linear-gradient(to top, #4a90e2, #609de6;
+    background: linear-gradient(to top, #4a90e2, #609de6);
     color: white;
     padding: 20px 0;
     text-align: center;
@@ -36,6 +40,26 @@ main {
     display: flex;
     justify-content: center;
     padding: 20px;
+}
+/* ============================================
+   Conteúdo links
+============================================ */
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 15px;
+}
+
+.social-links a {
+    color: white;
+    transition: all 0.25s ease;
+}
+
+.social-links a:hover {
+    color: #ffffff;
+    transform: translateY(-3px);
+    opacity: 0.9;
 }
 /* ============================================
    Seção de projetos
@@ -120,10 +144,10 @@ main {
    Rodapé
 ============================================ */
 footer {
-    background: linear-gradient(to bottom, #4a90e2, #609de6);
+    background: linear-gradient(to top, #4a90e2, #609de6);
     color: white;
     text-align: center;
-    padding: 20px;
+    padding: 20px 10px;
     width: 100%;
 }
 footer button {
