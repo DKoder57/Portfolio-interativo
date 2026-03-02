@@ -24,56 +24,66 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
-    background: radial-gradient(circle, #1a1a1a 0%, #0a0a0a 100%);
+    background: #0a0a0a; /* Fundo sólido e escuro */
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10000;
-    color: white;
-    text-align: center;
-    /* Essencial para o efeito de sumir */
+    z-index: 99999;
     transition: opacity 1s ease-in-out, visibility 1s;
-    opacity: 1;
-    visibility: visible;
+    overflow: hidden; /* Impede que o texto "vaze" ou crie scroll */
 }
 
-/* ESTA É A CLASSE QUE O JS ATIVA - Garante que suma */
+/* Estado Escondido */
 #welcome-screen.hidden {
     opacity: 0;
     visibility: hidden;
 }
 
-/* Estilização do Conteúdo Interno */
+/* Conteúdo Central - Largura fixa para evitar que o texto suma */
+.welcome-content {
+    width: 90%; 
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Título Impactante */
 .welcome-content h1 {
-    font-size: 3rem;
     font-family: 'Inter', sans-serif;
-    letter-spacing: 5px;
-    text-transform: uppercase;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 900;
+    letter-spacing: -1px;
     margin: 0;
-    background: linear-gradient(90deg, #fff, #3498db);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: fadeUp 1.5s ease;
+    color: #ffffff;
+    /* Efeito de revelação suave para não sumir no início */
+    animation: revealIn 1.5s ease-out forwards;
 }
 
+/* Subtítulo */
 .welcome-content p {
-    font-size: 1.2rem;
-    letter-spacing: 3px;
-    color: #888;
-    margin-top: 10px;
-    animation: fadeUp 2s ease;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    color: #3498db;
+    letter-spacing: 5px;
+    margin-top: 15px;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeInSub 1s ease-out 0.5s forwards;
 }
 
-/* Loader Minimalista */
+/* Loader Minimalista que não quebra o layout */
 .loader {
-    width: 50px;
+    width: 150px;
     height: 2px;
-    background: #333;
-    margin: 30px auto;
+    background: rgba(255, 255, 255, 0.1);
+    margin-top: 40px;
     position: relative;
     overflow: hidden;
+    border-radius: 4px;
 }
 
 .loader::after {
@@ -83,17 +93,31 @@ body {
     width: 100%;
     height: 100%;
     background: #3498db;
-    animation: loading 2s infinite;
+    animation: loadingMove 2s infinite ease-in-out;
 }
 
-@keyframes loading {
+/* ANIMAÇÕES */
+@keyframes loadingMove {
+    0% { left: -100%; }
+    50% { left: 0; }
     100% { left: 100%; }
 }
 
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+@keyframes revealIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(10px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
 }
+
+@keyframes fadeInSub {
+    to { opacity: 0.7; }
+}
+
 /* ============================================
    Cabeçalho
 ============================================ */
