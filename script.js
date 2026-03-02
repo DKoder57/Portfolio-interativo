@@ -47,6 +47,32 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ============================================
+// LÓGICA DA TELA DE BOAS-VINDAS
+// ============================================
+
+function iniciarTelaBoasVindas() {
+    const welcomeScreen = document.getElementById("welcome-screen");
+    
+    // Verificação de segurança: só executa se o elemento existir
+    if (!welcomeScreen) return;
+
+    setTimeout(() => {
+        welcomeScreen.classList.add("hidden");
+        
+        setTimeout(() => {
+            // Checa novamente antes de remover
+            if (welcomeScreen.parentNode) {
+                welcomeScreen.remove();
+            }
+        }, 1200);
+        
+    }, 5000);
+}
+
+// Inicia a contagem assim que a página carregar
+window.addEventListener("load", iniciarTelaBoasVindas);
+
+// ============================================
 // CARREGAR PROJETOS DO FIRESTORE
 // ============================================
 
