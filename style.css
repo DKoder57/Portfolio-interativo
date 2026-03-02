@@ -7,7 +7,7 @@ body {
     width: 100vw;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #0f2027 0%, #1c3a50 50%, #2c5364 80%, #4a90e2 100%);
+    background: linear-gradient(to bottom, #0e1f38, #1f4068, #33689e, #4a90e2, #609de6);
     color: #e0f0ff;
     display: flex;
     flex-direction: column;
