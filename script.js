@@ -66,16 +66,14 @@ function iniciarTelaBoasVindas() {
     document.body.style.overflow = "hidden";
 
     setTimeout(() => {
-        welcomeScreen.classList.add("hidden");
-        document.body.style.overflow = "auto";
-
-        setTimeout(() => {
-            welcomeScreen.remove();
-        }, 1000);
+    const screen = document.getElementById("welcome-screen");
+    if (screen) {
+        screen.classList.add("hidden");
+        // Remove do DOM após a transição de 1s do CSS
+        setTimeout(() => screen.remove(), 1000);
+    }
     }, 3000);
-}
-
-window.addEventListener("load", iniciarTelaBoasVindas);
+    window.addEventListener("load", iniciarTelaBoasVindas);
 
 
 // ============================================
