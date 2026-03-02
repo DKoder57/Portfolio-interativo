@@ -374,7 +374,7 @@ body.popup-ativo::before {
 .welcome-content p {
     font-family: 'JetBrains Mono', monospace;
     font-size: 1rem;
-    color: #3498db !important;
+    color: #d3353500 !important;
     letter-spacing: 5px;
     margin-top: 15px;
     text-transform: uppercase;
