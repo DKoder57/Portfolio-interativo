@@ -42,6 +42,7 @@ main {
     display: flex;
     justify-content: center;
     padding: 20px;
+    margin: 0 auto;
 }
 /* ============================================
    Seção de projetos
