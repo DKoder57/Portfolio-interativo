@@ -41,6 +41,7 @@ main {
     max-width: 1200px;
     display: flex;
     justify-content: center;
+    align-content: center;
     padding: 20px;
     margin: 0 auto;
 }
