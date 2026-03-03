@@ -64,6 +64,7 @@ main {
     padding: 20px;
     border-radius: 10px;
     text-align: center;
+    justify-content: center;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
     box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
