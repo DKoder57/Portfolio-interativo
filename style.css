@@ -369,7 +369,7 @@ body.popup-ativo::before {
     font-family: 'Inter', sans-serif;
     font-size: clamp(2.5rem, 8vw, 4rem) !important;
     font-weight: 900;
-    letter-spacing: -1px;
+    text-intend: -1px;
     margin: 0;
     color: #ffffff !important;
     animation: revealIn 1.5s ease-out forwards;
@@ -378,7 +378,7 @@ body.popup-ativo::before {
     font-family: 'JetBrains Mono', monospace;
     font-size: 1rem;
     color: #4a90e2 !important;
-    letter-spacing: 5px;
+    text-intend: 5px;
     margin-top: 15px;
     text-transform: uppercase;
     opacity: 0;
