@@ -317,6 +317,8 @@ function abrirPopupFirebase() {
 
       console.log("Projeto salvo no Firestore com ID:", docRef.id);
 
+      criarCardProjeto(titulo, descricao, link, urlImagem, docRef.id, publicId);
+
     } catch (error) {
       console.error("Erro ao salvar projeto:", error);
       alert("Erro ao salvar projeto. Verifique o console.");
