@@ -3,7 +3,7 @@
 // ============================================
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, serverTimestamp, doc, deleteDoc } 
+import { getFirestore, collection, addDoc, getDocs, getDoc, updateDoc, serverTimestamp, doc, deleteDoc }
   from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } 
   from "https://www.gstatic.com/firebasejs/12.8.0/firebase-storage.js";
@@ -431,16 +431,126 @@ document.addEventListener("click", (e) => {
     </button>
   `;
 
-  card.innerHTML = `
-    ${imagemHTML}
-    <h3>${titulo}</h3>
-    <p>${descricao}</p>
-    ${linkHTML}
-    ${deleteButton}
-  `;
+const editButton = `
+  <button class="btnEdit" title="Editar projeto">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" viewBox="0 0 24 24">
+      <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+    </svg>
+  </button>
+`;
 
-  document.getElementById("projetos").appendChild(card);
-  adicionarEventoDeletarProjeto(card);
+card.innerHTML = `
+  ${imagemHTML}
+  <h3>${titulo}</h3>
+  <p>${descricao}</p>
+  ${linkHTML}
+  ${editButton}
+  ${deleteButton}
+`;
+
+document.getElementById("projetos").appendChild(card);
+adicionarEventoDeletarProjeto(card);
+adicionarEventoEditarProjeto(card, titulo, descricao, link, imagem, publicId);
+}
+
+// ============================================
+// EDITAR PROJETOS
+// ============================================
+function adicionarEventoEditarProjeto(card, tituloAtual, descricaoAtual, linkAtual, imagemAtual, publicIdAtual) {
+  card.querySelector(".btnEdit").addEventListener("click", () => {
+    // Só permite editar projetos que existem no Firestore
+    if (!card.dataset.firebaseId) {
+      alert("Este projeto é apenas local (dados de teste) e não pode ser editado.");
+      return;
+    }
+
+    const popupEditar = document.createElement("div");
+    popupEditar.classList.add("popup");
+    popupEditar.innerHTML = `
+      <button class="close-btn">×</button>
+      <h2>Editar Projeto</h2>
+      <input type="text" id="tituloEditar" value="${tituloAtual}">
+      <textarea id="descricaoEditar">${descricaoAtual}</textarea>
+      <input type="url" id="linkEditar" value="${linkAtual || ""}">
+      <input type="file" id="imagemEditar" accept="image/*">
+      <p style="font-size:0.85em; opacity:0.7;">Deixe o campo de imagem vazio para manter a imagem atual.</p>
+      <button class="btnSalvarEdicao">Salvar alterações</button>
+    `;
+    document.body.appendChild(popupEditar);
+    popupEditar.style.display = "block";
+    document.body.classList.add("popup-ativo");
+
+    popupEditar.querySelector(".close-btn").addEventListener("click", () => {
+      popupEditar.remove();
+      document.body.classList.remove("popup-ativo");
+    });
+
+    popupEditar.querySelector(".btnSalvarEdicao").addEventListener("click", async () => {
+      const novoTitulo = popupEditar.querySelector("#tituloEditar").value || "Projeto sem título";
+      const novaDescricao = popupEditar.querySelector("#descricaoEditar").value || "Sem descrição";
+      const novoLink = popupEditar.querySelector("#linkEditar").value;
+      const novaImagemInput = popupEditar.querySelector("#imagemEditar");
+      const novaImagemFile = novaImagemInput.files[0];
+
+      try {
+        let urlImagemFinal = imagemAtual;
+        let publicIdFinal = publicIdAtual;
+
+        if (novaImagemFile) {
+          // Sobe a nova imagem
+          const result = await uploadToCloudinary(novaImagemFile);
+          urlImagemFinal = result.url;
+          publicIdFinal = result.publicId;
+
+          // Apaga a imagem antiga do Cloudinary, se existir
+          if (publicIdAtual) {
+            await deleteFromCloudinary(publicIdAtual);
+          }
+        }
+
+        await updateDoc(doc(db, "projetos", card.dataset.firebaseId), {
+          titulo: novoTitulo,
+          descricao: novaDescricao,
+          link: novoLink,
+          imagem: urlImagemFinal,
+          publicId: publicIdFinal
+        });
+
+        console.log("Projeto atualizado:", card.dataset.firebaseId);
+
+        // Atualiza o card na tela sem precisar recarregar
+     card.querySelector("h3").textContent = novoTitulo;
+     card.querySelector("p").textContent = novaDescricao;
+     card.dataset.publicId = publicIdFinal;
+        // Atualiza o link
+        const linkEl = card.querySelector("a");
+        if (novoLink) {
+          let url = novoLink;
+          if (!/^https?:\/\//i.test(url)) url = "https://" + url;
+          if (linkEl) {
+            linkEl.href = url;
+          } else {
+            const novoP = document.createElement("p");
+            novoP.innerHTML = `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color:#fff; text-decoration:underline;">Ver projeto</a>`;
+            card.querySelector(".btnEdit").insertAdjacentElement("beforebegin", novoP);
+          }
+        } else if (linkEl) {
+          // link foi removido na edição — apaga o parágrafo do card
+          linkEl.closest("p").remove();
+        }
+        const img = card.querySelector(".card-img-bg");
+        if (img && novaImagemFile) img.src = urlImagemFinal;
+
+        alert("Projeto atualizado com sucesso!");
+      } catch (error) {
+        console.error("Erro ao atualizar projeto:", error);
+        alert("Erro ao atualizar projeto. Verifique o console.");
+      }
+
+      popupEditar.remove();
+      document.body.classList.remove("popup-ativo");
+    });
+  });
 }
 
 // ============================================
@@ -474,15 +584,11 @@ function adicionarEventoDeletarProjeto(card) {
     confirmPopup.querySelector(".btnConfirmDelete").addEventListener("click", async () => {
       if (card.dataset.firebaseId) {
         try {
-          // Se houver publicId salvo no card, exclui imagem do Cloudinary
           if (card.dataset.publicId) {
             await deleteFromCloudinary(card.dataset.publicId);
           }
-
-          // Exclui o documento do Firestore
           await deleteDoc(doc(db, "projetos", card.dataset.firebaseId));
           console.log("Projeto excluído do Firestore:", card.dataset.firebaseId);
-
         } catch (error) {
           console.error("Erro ao excluir projeto:", error);
         }
@@ -496,16 +602,32 @@ function adicionarEventoDeletarProjeto(card) {
   });
 }
 
+// Busca a apiSecret no Firestore, protegida por Security Rule
+async function getCloudinarySecret() {
+  try {
+    const docSnap = await getDoc(doc(db, "configs", "cloudinary"));
+    return docSnap.exists() ? docSnap.data().apiSecret : null;
+  } catch (error) {
+    console.error("Erro ao buscar segredo do Cloudinary:", error);
+    return null;
+  }
+}
+
 // Função auxiliar global para deletar imagem do Cloudinary
 async function deleteFromCloudinary(publicId) {
   const cloudName = "dq7xboszm";
-  const apiKey = "729636375649274";
-  const apiSecret = "z9RS7NaRWwGLzYaf0lUiZonnEoc" // Teste simples, sem cuidados com segurança.
+  const apiKey = "793595736185754"; // sua nova apiKey
+
+  const apiSecret = await getCloudinarySecret();
+  if (!apiSecret) {
+    console.error("Não foi possível obter a chave secreta do Cloudinary. Delete cancelado.");
+    alert("Erro de permissão ao excluir a imagem.");
+    return;
+  }
 
   const timestamp = Math.floor(Date.now() / 1000);
   const stringToSign = `public_id=${publicId}&timestamp=${timestamp}${apiSecret}`;
 
-  // Gera assinatura SHA-1
   const signature = await sha1(stringToSign);
 
   const formData = new FormData();
@@ -521,11 +643,9 @@ async function deleteFromCloudinary(publicId) {
     });
 
     const result = await response.json();
-
     if (!response.ok || result.result !== "ok") {
       throw new Error("Erro ao excluir imagem do Cloudinary");
     }
-
     console.log("Imagem excluída do Cloudinary:", publicId);
   } catch (error) {
     console.error("Erro ao excluir imagem do Cloudinary:", error);
