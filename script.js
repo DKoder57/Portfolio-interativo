@@ -588,16 +588,18 @@ function adicionarEventoDeletarProjeto(card) {
             await deleteFromCloudinary(card.dataset.publicId);
           }
           await deleteDoc(doc(db, "projetos", card.dataset.firebaseId));
+          card.remove();
+          alert("Projeto excluído com sucesso!");
           console.log("Projeto excluído do Firestore:", card.dataset.firebaseId);
         } catch (error) {
           console.error("Erro ao excluir projeto:", error);
+          alert("Não foi possível excluir o projeto. Verifique se está logado com a conta autorizada.");
         }
       }
-
-      card.remove();
+      
       confirmPopup.remove();
       document.body.classList.remove("popup-ativo");
-      alert("Projeto excluído com sucesso!");
+
     });
   });
 }
